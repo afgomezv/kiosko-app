@@ -11,16 +11,17 @@ export default function OrdersPage() {
       .then((res) => res.json())
       .then((data) => data);
 
-  const { data, error, isLoading } = useSWR<OrderWithProducts[]>(url, fetcher, {
-    refreshInterval: 3600000,
+  const { data, isLoading } = useSWR<OrderWithProducts[]>(url, fetcher, {
+    refreshInterval: 3600000, // Ajustar el tiempo más corto para ver revalidate en milesegundos
     revalidateOnFocus: false,
   });
+
+  if (isLoading) return <p>Cargando..</p>;
 
   // const refreshOrders = async () => {
   //   "use server";
   //   revalidatePath("/admin/orders");
   // };
-  if (isLoading) return "Cargando..";
 
   if (data)
     return (
